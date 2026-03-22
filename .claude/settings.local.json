@@ -7,7 +7,12 @@
       "Bash(npx create-vite@latest --template react-ts .)",
       "Bash(echo \"EXIT: $?\")",
       "Read(//Users/tomaszahradnik/Desktop/samot/**)",
-      "Bash(npx create-vite@latest samot_web --template react-ts)"
+      "Bash(npx create-vite@latest samot_web --template react-ts)",
+      "Bash(ssh-keygen -t ed25519 -C \"tomaszahradnik@github\" -f ~/.ssh/id_ed25519 -N \"\")",
+      "Read(//Users/tomaszahradnik/.ssh/**)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"Add .htaccess to public/ for SPA routing on Apache:*)"
     ]
   }
 }
