@@ -7,12 +7,21 @@ const TAGLINE = '7 dní v naprosté tmě a tichu. 15 kreseb. 15 myšlenek.'
 export default function Hero() {
   const [displayed, setDisplayed] = useState('')
   const [titleDone, setTitleDone] = useState(false)
+  // eyesOpen: drives the "opening eyes" blur-to-focus animation
+  const [eyesOpen, setEyesOpen] = useState(false)
 
-  // Typewriter effect for title
   useEffect(() => {
+    // Start opening eyes after brief pause
+    const eyeTimer = setTimeout(() => setEyesOpen(true), 300)
+    return () => clearTimeout(eyeTimer)
+  }, [])
+
+  // Typewriter starts only after eyes have "opened"
+  useEffect(() => {
+    if (!eyesOpen) return
     let i = 0
-    const delay = 1200 // ms before starting
-    const speed = 60   // ms per character
+    const delay = 2000 // wait for eye-open animation to settle
+    const speed = 65
 
     const timer = setTimeout(() => {
       const interval = setInterval(() => {
@@ -27,7 +36,7 @@ export default function Hero() {
     }, delay)
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [eyesOpen])
 
   const scrollDown = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
@@ -47,41 +56,61 @@ export default function Hero() {
         }}
       />
 
-      {/* Subtle radial glow */}
-      <div
+      {/* Radial glow — also fades in with eyes */}
+      <motion.div
         className="pointer-events-none absolute inset-0 z-0"
+        initial={{ opacity: 0 }}
+        animate={eyesOpen ? { opacity: 1 } : {}}
+        transition={{ duration: 3.5, ease: 'easeOut' }}
         style={{
-          background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(168,127,212,0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(168,127,212,0.07) 0%, transparent 70%)',
         }}
+      />
+
+      {/* ── "Opening eyes" overlay — starts fully opaque black, fades to transparent ── */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-30"
+        initial={{ opacity: 1, backdropFilter: 'blur(40px)' }}
+        animate={eyesOpen ? { opacity: 0, backdropFilter: 'blur(0px)' } : {}}
+        transition={{ duration: 3.2, ease: [0.16, 1, 0.3, 1] }}
+        style={{ background: 'rgba(6,3,12,0.85)' }}
       />
 
       {/* Content */}
       <div className="relative z-20 flex flex-col items-center text-center px-6 max-w-3xl">
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1.5 }}
+          initial={{ opacity: 0, filter: 'blur(10px)' }}
+          animate={eyesOpen ? { opacity: 1, filter: 'blur(0px)' } : {}}
+          transition={{ delay: 2.2, duration: 2.0, ease: 'easeOut' }}
           className="font-sans text-xs tracking-[0.4em] uppercase text-text-muted mb-8"
         >
           online výstava
         </motion.p>
 
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-text-primary leading-tight mb-6 min-h-[1.2em]">
+        {/* Title — appears letter by letter after eye-open */}
+        <h1
+          className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-text-primary leading-tight mb-6 min-h-[1.2em]"
+          style={{
+            filter: eyesOpen ? 'blur(0px)' : 'blur(8px)',
+            transition: 'filter 2s ease',
+          }}
+        >
           {displayed}
           <span
             className="inline-block w-0.5 h-[0.85em] ml-1 align-middle"
             style={{
               background: '#a87fd4',
               opacity: titleDone ? 0 : 1,
+              transition: 'opacity 0.5s',
               animation: titleDone ? 'none' : 'blink 1s step-end infinite',
             }}
           />
         </h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={titleDone ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1.2, delay: 0.3 }}
+          initial={{ opacity: 0, filter: 'blur(8px)', y: 8 }}
+          animate={titleDone ? { opacity: 1, filter: 'blur(0px)', y: 0 } : {}}
+          transition={{ duration: 1.8, delay: 0.2, ease: 'easeOut' }}
           className="font-sans text-base sm:text-lg text-text-secondary max-w-md leading-relaxed"
         >
           {TAGLINE}
@@ -92,9 +121,12 @@ export default function Hero() {
       <motion.button
         initial={{ opacity: 0 }}
         animate={titleDone ? { opacity: 1 } : {}}
-        transition={{ duration: 1, delay: 1 }}
+        transition={{ duration: 1.5, delay: 0.8 }}
         onClick={scrollDown}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-text-muted hover:text-amber-warm transition-colors duration-300 group"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 transition-colors duration-300 group"
+        style={{ color: 'rgba(168,127,212,0.45)' }}
+        onMouseEnter={e => (e.currentTarget.style.color = 'rgba(168,127,212,0.9)')}
+        onMouseLeave={e => (e.currentTarget.style.color = 'rgba(168,127,212,0.45)')}
         aria-label="Přejít dolů"
       >
         <span className="font-sans text-xs tracking-widest uppercase opacity-60">Procházet</span>

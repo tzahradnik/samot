@@ -13,7 +13,11 @@
       "Bash(git push:*)",
       "Bash(git add:*)",
       "Bash(git commit -m \"Add .htaccess to public/ for SPA routing on Apache:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "mcp__c1fc4002-5f49-5f9d-a4e5-93c4ef5d6a75__google_drive_fetch",
+      "Bash(python3 -c \"import whisper; print\\(''''whisper ok''''\\)\")",
+      "Bash(pip3 show:*)",
+      "Bash(pip3 install:*)"
     ]
   }
 }
