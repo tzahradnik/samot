@@ -6,11 +6,13 @@ export default {
       colors: {
         bg: '#0a0a0a',
         surface: '#111111',
-        surfaceHigh: '#1a1a1a',
-        amber: {
-          warm: '#d4a853',
-          dim: '#b8923f',
-          glow: 'rgba(212,168,83,0.15)',
+        surfaceHigh: '#1c1624',
+        violet: {
+          primary: '#a87fd4',
+          dim: '#8a61b8',
+          glow: 'rgba(168,127,212,0.18)',
+          subtle: 'rgba(168,127,212,0.08)',
+          border: 'rgba(168,127,212,0.28)',
         },
         text: {
           primary: '#e8e0d0',

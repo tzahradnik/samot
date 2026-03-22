@@ -7,7 +7,7 @@ interface AudioPlayerProps {
 }
 
 function formatTime(seconds: number): string {
-  if (isNaN(seconds)) return '0:00'
+  if (isNaN(seconds) || !isFinite(seconds)) return '0:00'
   const m = Math.floor(seconds / 60)
   const s = Math.floor(seconds % 60)
   return `${m}:${s.toString().padStart(2, '0')}`
@@ -22,7 +22,6 @@ export default function AudioPlayer({ src, label, icon }: AudioPlayerProps) {
   const [loaded, setLoaded] = useState(false)
   const [dragging, setDragging] = useState(false)
 
-  // Lazy-load audio only when user first interacts
   const ensureAudio = useCallback(() => {
     if (audioRef.current || !src) return
     const audio = new Audio()
@@ -38,9 +37,7 @@ export default function AudioPlayer({ src, label, icon }: AudioPlayerProps) {
   }, [src, dragging])
 
   useEffect(() => {
-    return () => {
-      audioRef.current?.pause()
-    }
+    return () => { audioRef.current?.pause() }
   }, [])
 
   const togglePlay = () => {
@@ -60,7 +57,6 @@ export default function AudioPlayer({ src, label, icon }: AudioPlayerProps) {
     const bar = progressRef.current
     const audio = audioRef.current
     if (!bar || !audio || !duration) return
-
     const rect = bar.getBoundingClientRect()
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
     const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
@@ -72,37 +68,58 @@ export default function AudioPlayer({ src, label, icon }: AudioPlayerProps) {
   const isEmpty = !src
 
   return (
-    <div className={`flex flex-col gap-2 ${isEmpty ? 'opacity-30 pointer-events-none' : ''}`}>
-      <div className="flex items-center gap-3">
-        <span className="text-xs text-text-muted font-sans tracking-wide">{icon} {label}</span>
-        {isEmpty && <span className="text-xs text-text-muted italic">— připravujeme</span>}
+    <div
+      className="rounded-xl overflow-hidden transition-opacity duration-300"
+      style={{ opacity: isEmpty ? 0.35 : 1, pointerEvents: isEmpty ? 'none' : 'auto' }}
+    >
+      {/* Label row */}
+      <div
+        className="flex items-center gap-2 px-4 pt-3 pb-2"
+        style={{ background: 'rgba(168,127,212,0.09)' }}
+      >
+        <span className="text-base">{icon}</span>
+        <span
+          className="font-sans text-xs font-medium uppercase"
+          style={{ color: 'rgba(168,127,212,0.9)', letterSpacing: '0.12em' }}
+        >
+          {label}
+        </span>
+        {isEmpty && (
+          <span className="ml-auto font-sans text-xs italic" style={{ color: 'rgba(168,127,212,0.4)' }}>
+            připravujeme
+          </span>
+        )}
       </div>
 
-      <div className="flex items-center gap-3 bg-surface rounded-lg px-3 py-2.5 border border-white/5">
-        {/* Play / Pause button */}
+      {/* Controls row */}
+      <div
+        className="flex items-center gap-3 px-4 pb-3 pt-2"
+        style={{
+          background: 'rgba(168,127,212,0.05)',
+          borderTop: '1px solid rgba(168,127,212,0.1)',
+        }}
+      >
+        {/* Play / Pause */}
         <button
           onClick={togglePlay}
           disabled={isEmpty}
-          className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 focus:outline-none"
+          className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 focus:outline-none"
           style={{
-            background: playing
-              ? 'rgba(212,168,83,0.2)'
-              : 'rgba(212,168,83,0.08)',
-            border: '1px solid rgba(212,168,83,0.3)',
-            color: '#d4a853',
+            background: playing ? 'rgba(168,127,212,0.28)' : 'rgba(168,127,212,0.1)',
+            border: `1.5px solid ${playing ? 'rgba(168,127,212,0.65)' : 'rgba(168,127,212,0.32)'}`,
+            color: '#a87fd4',
+            boxShadow: playing ? '0 0 16px rgba(168,127,212,0.28)' : 'none',
           }}
           aria-label={playing ? 'Pauza' : 'Přehrát'}
         >
           {playing ? (
-            // Pause icon
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor">
               <rect x="1" y="1" width="3.5" height="10" rx="1"/>
               <rect x="7.5" y="1" width="3.5" height="10" rx="1"/>
             </svg>
           ) : (
-            // Play icon
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-              <path d="M2 1.5L10.5 6 2 10.5V1.5z"/>
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor">
+              <path d="M2.5 1.5L11 6 2.5 10.5V1.5z"/>
             </svg>
           )}
         </button>
@@ -110,8 +127,8 @@ export default function AudioPlayer({ src, label, icon }: AudioPlayerProps) {
         {/* Progress bar */}
         <div
           ref={progressRef}
-          className="flex-1 h-1 rounded-full cursor-pointer relative group"
-          style={{ background: 'rgba(255,255,255,0.08)' }}
+          className="flex-1 h-1.5 rounded-full cursor-pointer relative group/bar"
+          style={{ background: 'rgba(168,127,212,0.18)' }}
           onClick={seek}
           onMouseDown={() => setDragging(true)}
           onMouseUp={() => setDragging(false)}
@@ -122,32 +139,33 @@ export default function AudioPlayer({ src, label, icon }: AudioPlayerProps) {
           aria-valuemax={100}
           aria-valuenow={Math.round(progress)}
         >
-          {/* Filled portion */}
           <div
-            className="h-full rounded-full transition-all duration-100 relative"
+            className="h-full rounded-full relative transition-all duration-100"
             style={{
               width: `${progress}%`,
-              background: 'linear-gradient(90deg, #d4a853, #b8923f)',
+              background: 'linear-gradient(90deg, #7a56a8, #a87fd4)',
             }}
           >
-            {/* Thumb */}
             <div
-              className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+              className="absolute right-0 top-1/2 w-3 h-3 rounded-full opacity-0 group-hover/bar:opacity-100 transition-opacity duration-150"
               style={{
-                background: '#d4a853',
-                boxShadow: '0 0 6px rgba(212,168,83,0.8)',
+                background: '#a87fd4',
+                boxShadow: '0 0 8px rgba(168,127,212,0.9)',
                 transform: 'translate(50%, -50%)',
               }}
             />
           </div>
         </div>
 
-        {/* Time display */}
-        <span className="flex-shrink-0 text-xs font-sans tabular-nums" style={{ color: '#5a5248' }}>
+        {/* Time */}
+        <span
+          className="flex-shrink-0 text-xs font-sans tabular-nums w-16 text-right"
+          style={{ color: 'rgba(168,127,212,0.65)' }}
+        >
           {loaded || playing ? (
-            <>{formatTime(currentTime)} <span className="opacity-40">/</span> {formatTime(duration)}</>
+            <>{formatTime(currentTime)} <span style={{ opacity: 0.4 }}>/</span> {formatTime(duration)}</>
           ) : (
-            <span className="opacity-40">—:——</span>
+            <span style={{ opacity: 0.4 }}>—:——</span>
           )}
         </span>
       </div>

@@ -51,7 +51,7 @@ export default function Hero() {
       <div
         className="pointer-events-none absolute inset-0 z-0"
         style={{
-          background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(212,168,83,0.04) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(168,127,212,0.05) 0%, transparent 70%)',
         }}
       />
 
@@ -71,7 +71,7 @@ export default function Hero() {
           <span
             className="inline-block w-0.5 h-[0.85em] ml-1 align-middle"
             style={{
-              background: '#d4a853',
+              background: '#a87fd4',
               opacity: titleDone ? 0 : 1,
               animation: titleDone ? 'none' : 'blink 1s step-end infinite',
             }}

@@ -27,17 +27,17 @@ body {
   overflow-y: scroll;
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: rgba(212,168,83,0.15) transparent;
+  scrollbar-color: rgba(168,127,212,0.18) transparent;
 }
 
 #scroll-container::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 #scroll-container::-webkit-scrollbar-track {
   background: transparent;
 }
 #scroll-container::-webkit-scrollbar-thumb {
-  background: rgba(212,168,83,0.2);
+  background: rgba(168,127,212,0.25);
   border-radius: 2px;
 }
 
@@ -48,20 +48,19 @@ body {
 
 /* ── Selection color ──────────────────────────────────── */
 ::selection {
-  background: rgba(212,168,83,0.25);
+  background: rgba(168,127,212,0.28);
   color: #e8e0d0;
 }
 
 /* ── Utility ──────────────────────────────────────────── */
-.text-amber-warm { color: #d4a853; }
 .bg-surface { background: #111111; }
 
-/* ── Page-load fade ──────────────────────────────────── */
+/* ── Page-load fade-in from blur ─────────────────────── */
 #root {
-  animation: pageReveal 1.2s ease forwards;
+  animation: pageReveal 1.6s ease forwards;
 }
 
 @keyframes pageReveal {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from { opacity: 0; filter: blur(6px); }
+  to   { opacity: 1; filter: blur(0px); }
 }

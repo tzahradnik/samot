@@ -23,8 +23,8 @@ export default function ScrollProgress() {
         className="h-full transition-all duration-100 ease-out"
         style={{
           width: `${progress}%`,
-          background: 'linear-gradient(90deg, #d4a853, #b8923f)',
-          boxShadow: '0 0 8px rgba(212,168,83,0.6)',
+          background: 'linear-gradient(90deg, #7a56a8, #a87fd4)',
+          boxShadow: '0 0 8px rgba(168,127,212,0.55)',
         }}
       />
     </div>

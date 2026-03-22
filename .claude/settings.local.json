@@ -12,7 +12,8 @@
       "Read(//Users/tomaszahradnik/.ssh/**)",
       "Bash(git push:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"Add .htaccess to public/ for SPA routing on Apache:*)"
+      "Bash(git commit -m \"Add .htaccess to public/ for SPA routing on Apache:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

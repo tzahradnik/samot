@@ -62,7 +62,10 @@ export default function Navigation() {
       {/* Logo / Title */}
       <a
         href="#hero"
-        className="pointer-events-auto font-serif text-sm tracking-widest text-text-secondary hover:text-amber-warm transition-colors duration-300"
+        className="pointer-events-auto font-serif text-sm tracking-widest text-text-secondary transition-colors duration-300"
+        style={{ color: undefined }}
+        onMouseEnter={e => (e.currentTarget.style.color = '#a87fd4')}
+        onMouseLeave={e => (e.currentTarget.style.color = '')}
         onClick={(e) => {
           e.preventDefault()
           document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' })
@@ -79,7 +82,7 @@ export default function Navigation() {
       >
         {currentId !== null && (
           <div className="flex items-center gap-3">
-            <span className="font-serif text-sm text-amber-warm tracking-widest">
+            <span className="font-serif text-sm tracking-widest" style={{ color: '#a87fd4' }}>
               {currentId}
             </span>
             <span className="text-text-muted text-xs">/</span>
@@ -97,9 +100,10 @@ export default function Navigation() {
             title={`Kresba ${d.id}: ${d.title}`}
             className={`w-1 h-1 rounded-full transition-all duration-300 ${
               currentId === d.id
-                ? 'bg-amber-warm w-3 scale-110'
+                ? 'w-3 scale-110'
                 : 'bg-text-muted hover:bg-text-secondary'
             }`}
+            style={currentId === d.id ? { background: '#a87fd4' } : {}}
           />
         ))}
       </div>
