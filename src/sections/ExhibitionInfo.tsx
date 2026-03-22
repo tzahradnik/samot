@@ -103,7 +103,7 @@ export default function ExhibitionInfo() {
             </a>
 
             <a
-              href="sms:+420720123456"
+              href="sms:+420774587771"
               className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-sans text-xs tracking-wide transition-all duration-200"
               style={{
                 background: 'rgba(168,127,212,0.06)',

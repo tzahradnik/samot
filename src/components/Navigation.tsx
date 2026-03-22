@@ -25,11 +25,6 @@ export default function Navigation() {
       { root: container, threshold: 0.5 }
     )
 
-    // Also observe non-drawing sections to hide nav number
-    const heroSection = document.getElementById('hero')
-    const aboutSection = document.getElementById('about')
-    const exhibitionSection = document.getElementById('exhibition-info')
-
     const hideObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -40,6 +35,10 @@ export default function Navigation() {
       },
       { root: container, threshold: 0.5 }
     )
+
+    const heroSection = document.getElementById('hero')
+    const aboutSection = document.getElementById('about')
+    const exhibitionSection = document.getElementById('exhibition-info')
 
     sections.forEach(s => s && observer.observe(s))
     if (heroSection) hideObserver.observe(heroSection)
@@ -52,18 +51,12 @@ export default function Navigation() {
     }
   }, [])
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(`drawing-${id}`)
-    el?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 pointer-events-none">
-      {/* Logo / Title */}
+    <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-7 py-5 pointer-events-none">
+      {/* Logo */}
       <a
         href="#hero"
-        className="pointer-events-auto font-serif text-sm tracking-widest text-text-secondary transition-colors duration-300"
-        style={{ color: undefined }}
+        className="pointer-events-auto font-serif text-sm tracking-[0.2em] text-text-muted transition-colors duration-500"
         onMouseEnter={e => (e.currentTarget.style.color = '#a87fd4')}
         onMouseLeave={e => (e.currentTarget.style.color = '')}
         onClick={(e) => {
@@ -74,38 +67,16 @@ export default function Navigation() {
         samoT
       </a>
 
-      {/* Current drawing indicator */}
+      {/* Drawing counter — only visible on drawing sections */}
       <div
-        className={`pointer-events-auto transition-all duration-500 ${
-          visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
-        }`}
+        className="transition-all duration-700"
+        style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(-6px)' }}
       >
         {currentId !== null && (
-          <div className="flex items-center gap-3">
-            <span className="font-serif text-sm tracking-widest" style={{ color: '#a87fd4' }}>
-              {currentId}
-            </span>
-            <span className="text-text-muted text-xs">/</span>
-            <span className="font-sans text-xs text-text-muted">015</span>
-          </div>
+          <span className="font-serif text-xs tracking-[0.3em]" style={{ color: 'rgba(168,127,212,0.55)' }}>
+            {currentId} <span style={{ color: 'rgba(168,127,212,0.25)' }}>/</span> 015
+          </span>
         )}
-      </div>
-
-      {/* Mini dot navigation */}
-      <div className="pointer-events-auto flex gap-1.5 items-center">
-        {drawings.map(d => (
-          <button
-            key={d.id}
-            onClick={() => scrollToSection(d.id)}
-            title={`Kresba ${d.id}: ${d.title}`}
-            className={`w-1 h-1 rounded-full transition-all duration-300 ${
-              currentId === d.id
-                ? 'w-3 scale-110'
-                : 'bg-text-muted hover:bg-text-secondary'
-            }`}
-            style={currentId === d.id ? { background: '#a87fd4' } : {}}
-          />
-        ))}
       </div>
     </nav>
   )

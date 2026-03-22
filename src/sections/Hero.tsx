@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useAnimationControls } from 'framer-motion'
 
 const TITLE = 'samoT: 7 dní ve (t)mě'
 const TAGLINE = '7 dní v naprosté tmě a tichu. 15 kreseb. 15 myšlenek.'
@@ -7,22 +7,19 @@ const TAGLINE = '7 dní v naprosté tmě a tichu. 15 kreseb. 15 myšlenek.'
 export default function Hero() {
   const [displayed, setDisplayed] = useState('')
   const [titleDone, setTitleDone] = useState(false)
-  // eyesOpen: drives the "opening eyes" blur-to-focus animation
   const [eyesOpen, setEyesOpen] = useState(false)
+  const blinkControls = useAnimationControls()
 
+  // First: dramatic eye-opening
   useEffect(() => {
-    // Start opening eyes after brief pause
-    const eyeTimer = setTimeout(() => setEyesOpen(true), 300)
-    return () => clearTimeout(eyeTimer)
+    const t = setTimeout(() => setEyesOpen(true), 300)
+    return () => clearTimeout(t)
   }, [])
 
-  // Typewriter starts only after eyes have "opened"
+  // After eyes open, typewriter starts
   useEffect(() => {
     if (!eyesOpen) return
     let i = 0
-    const delay = 2000 // wait for eye-open animation to settle
-    const speed = 65
-
     const timer = setTimeout(() => {
       const interval = setInterval(() => {
         setDisplayed(TITLE.slice(0, i + 1))
@@ -31,12 +28,43 @@ export default function Hero() {
           clearInterval(interval)
           setTitleDone(true)
         }
-      }, speed)
+      }, 65)
       return () => clearInterval(interval)
-    }, delay)
-
+    }, 2200)
     return () => clearTimeout(timer)
   }, [eyesOpen])
+
+  // Infinite slow "blink" loop — subtle breathing blur after first opening
+  useEffect(() => {
+    if (!titleDone) return
+    let cancelled = false
+
+    const runLoop = async () => {
+      while (!cancelled) {
+        // Wait 12s in clear state
+        await new Promise(r => setTimeout(r, 12000))
+        if (cancelled) break
+        // Slowly close eyes (blur in)
+        await blinkControls.start({
+          opacity: 0.82,
+          backdropFilter: 'blur(28px)',
+          transition: { duration: 3.5, ease: [0.4, 0, 0.2, 1] },
+        })
+        if (cancelled) break
+        // Pause briefly in blurred state
+        await new Promise(r => setTimeout(r, 800))
+        if (cancelled) break
+        // Slowly open again
+        await blinkControls.start({
+          opacity: 0,
+          backdropFilter: 'blur(0px)',
+          transition: { duration: 4.2, ease: [0.16, 1, 0.3, 1] },
+        })
+      }
+    }
+    runLoop()
+    return () => { cancelled = true }
+  }, [titleDone, blinkControls])
 
   const scrollDown = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
@@ -47,7 +75,7 @@ export default function Hero() {
       id="hero"
       className="relative flex flex-col items-center justify-center h-screen w-full overflow-hidden snap-start"
     >
-      {/* Grain texture overlay */}
+      {/* Grain */}
       <div
         className="pointer-events-none absolute inset-0 z-10 opacity-[0.035] animate-grain"
         style={{
@@ -56,24 +84,30 @@ export default function Hero() {
         }}
       />
 
-      {/* Radial glow — also fades in with eyes */}
+      {/* Violet glow */}
       <motion.div
         className="pointer-events-none absolute inset-0 z-0"
         initial={{ opacity: 0 }}
         animate={eyesOpen ? { opacity: 1 } : {}}
-        transition={{ duration: 3.5, ease: 'easeOut' }}
-        style={{
-          background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(168,127,212,0.07) 0%, transparent 70%)',
-        }}
+        transition={{ duration: 4, ease: 'easeOut' }}
+        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(168,127,212,0.07) 0%, transparent 70%)' }}
       />
 
-      {/* ── "Opening eyes" overlay — starts fully opaque black, fades to transparent ── */}
+      {/* ── Eye-opening overlay: first dramatic open ── */}
       <motion.div
         className="pointer-events-none absolute inset-0 z-30"
         initial={{ opacity: 1, backdropFilter: 'blur(40px)' }}
         animate={eyesOpen ? { opacity: 0, backdropFilter: 'blur(0px)' } : {}}
-        transition={{ duration: 3.2, ease: [0.16, 1, 0.3, 1] }}
-        style={{ background: 'rgba(6,3,12,0.85)' }}
+        transition={{ duration: 3.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{ background: 'rgba(6,3,12,0.88)' }}
+      />
+
+      {/* ── Infinite blink overlay ── */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-29"
+        animate={blinkControls}
+        initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+        style={{ background: 'rgba(6,3,12,0.88)' }}
       />
 
       {/* Content */}
@@ -81,18 +115,17 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, filter: 'blur(10px)' }}
           animate={eyesOpen ? { opacity: 1, filter: 'blur(0px)' } : {}}
-          transition={{ delay: 2.2, duration: 2.0, ease: 'easeOut' }}
+          transition={{ delay: 2.4, duration: 2.0, ease: 'easeOut' }}
           className="font-sans text-xs tracking-[0.4em] uppercase text-text-muted mb-8"
         >
           online výstava
         </motion.p>
 
-        {/* Title — appears letter by letter after eye-open */}
         <h1
           className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-text-primary leading-tight mb-6 min-h-[1.2em]"
           style={{
-            filter: eyesOpen ? 'blur(0px)' : 'blur(8px)',
-            transition: 'filter 2s ease',
+            filter: eyesOpen ? 'blur(0px)' : 'blur(10px)',
+            transition: 'filter 2.2s ease',
           }}
         >
           {displayed}
@@ -123,10 +156,10 @@ export default function Hero() {
         animate={titleDone ? { opacity: 1 } : {}}
         transition={{ duration: 1.5, delay: 0.8 }}
         onClick={scrollDown}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 transition-colors duration-300 group"
-        style={{ color: 'rgba(168,127,212,0.45)' }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 transition-colors duration-300"
+        style={{ color: 'rgba(168,127,212,0.4)' }}
         onMouseEnter={e => (e.currentTarget.style.color = 'rgba(168,127,212,0.9)')}
-        onMouseLeave={e => (e.currentTarget.style.color = 'rgba(168,127,212,0.45)')}
+        onMouseLeave={e => (e.currentTarget.style.color = 'rgba(168,127,212,0.4)')}
         aria-label="Přejít dolů"
       >
         <span className="font-sans text-xs tracking-widest uppercase opacity-60">Procházet</span>
