@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: #0a0a0a;
+  color: #e8e0d0;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: #0a0a0a;
+  overflow: hidden; /* scroll container handles scroll */
+}
+
+/* ── Scroll container ─────────────────────────────────── */
+#scroll-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,168,83,0.15) transparent;
+}
+
+#scroll-container::-webkit-scrollbar {
+  width: 4px;
+}
+#scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+#scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(212,168,83,0.2);
+  border-radius: 2px;
+}
+
+/* ── Snap zones ───────────────────────────────────────── */
+.snap-container {
+  scroll-snap-type: y mandatory;
+}
+
+/* ── Selection color ──────────────────────────────────── */
+::selection {
+  background: rgba(212,168,83,0.25);
+  color: #e8e0d0;
+}
+
+/* ── Utility ──────────────────────────────────────────── */
+.text-amber-warm { color: #d4a853; }
+.bg-surface { background: #111111; }
+
+/* ── Page-load fade ──────────────────────────────────── */
+#root {
+  animation: pageReveal 1.2s ease forwards;
+}
+
+@keyframes pageReveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
