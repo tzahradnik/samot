@@ -20,7 +20,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_000.jpg',
     imageSrcFull: '/images/full/full_000.jpg',
     audioCommentary: '',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '',
   },
   {
     id: '001',
@@ -31,7 +31,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_001.jpg',
     imageSrcFull: '/images/full/full_001.jpg',
     audioCommentary: '/audio/komentare/komentar_001.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_001.m4a',
   },
   {
     id: '002',
@@ -42,7 +42,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_002.jpg',
     imageSrcFull: '/images/full/full_002.jpg',
     audioCommentary: '/audio/komentare/komentar_002.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_002.m4a',
   },
   {
     id: '003',
@@ -53,7 +53,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_003.jpg',
     imageSrcFull: '/images/full/full_003.jpg',
     audioCommentary: '/audio/komentare/komentar_003.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_003.m4a',
   },
   {
     id: '004',
@@ -64,7 +64,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_004.jpg',
     imageSrcFull: '/images/full/full_004.jpg',
     audioCommentary: '/audio/komentare/komentar_004.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_004.m4a',
   },
   {
     id: '005',
@@ -75,7 +75,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_005.jpg',
     imageSrcFull: '/images/full/full_005.jpg',
     audioCommentary: '/audio/komentare/komentar_005.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_005.m4a',
   },
   {
     id: '006',
@@ -86,7 +86,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_006.jpg',
     imageSrcFull: '/images/full/full_006.jpg',
     audioCommentary: '/audio/komentare/komentar_006.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_006.m4a',
   },
   {
     id: '007',
@@ -97,7 +97,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_007.jpg',
     imageSrcFull: '/images/full/full_007.jpg',
     audioCommentary: '/audio/komentare/komentar_007.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_007.m4a',
   },
   {
     id: '008',
@@ -108,7 +108,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_008.jpg',
     imageSrcFull: '/images/full/full_008.jpg',
     audioCommentary: '/audio/komentare/komentar_008.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_008.m4a',
   },
   {
     id: '009',
@@ -119,7 +119,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_009.jpg',
     imageSrcFull: '/images/full/full_009.jpg',
     audioCommentary: '/audio/komentare/komentar_009.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_009.m4a',
   },
   {
     id: '010',
@@ -130,7 +130,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_010.jpg',
     imageSrcFull: '/images/full/full_010.jpg',
     audioCommentary: '/audio/komentare/komentar_010.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_010.m4a',
   },
   {
     id: '011',
@@ -141,7 +141,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_011.jpg',
     imageSrcFull: '/images/full/full_011.jpg',
     audioCommentary: '/audio/komentare/komentar_011.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_011.m4a',
   },
   {
     id: '012',
@@ -152,7 +152,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_012.jpg',
     imageSrcFull: '/images/full/full_012.jpg',
     audioCommentary: '/audio/komentare/komentar_012.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_012.m4a',
   },
   {
     id: '013',
@@ -163,7 +163,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_013.jpg',
     imageSrcFull: '/images/full/full_013.jpg',
     audioCommentary: '/audio/komentare/komentar_013.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_013.m4a',
   },
   {
     id: '014',
@@ -174,7 +174,7 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_014.jpg',
     imageSrcFull: '/images/full/full_014.jpg',
     audioCommentary: '/audio/komentare/komentar_014.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_014.m4a',
   },
   {
     id: '015',
@@ -185,6 +185,6 @@ export const drawings: Drawing[] = [
     imageSrc: '/images/optimized_015.jpg',
     imageSrcFull: '/images/full/full_015.jpg',
     audioCommentary: '/audio/komentare/komentar_015.m4a',
-    audioHandpan: '/audio/handpan/handpan_${id}.m4a',
+    audioHandpan: '/audio/handpan/handpan_015.m4a',
   },
 ]
